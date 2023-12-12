@@ -1,0 +1,33 @@
+public class Solution {
+    public int MyAtoi(string s) {
+        long result = 0;
+        int index = 0;
+        bool isNegative = false;
+
+        // Skip leading whitespaces
+        while (index < s.Length && s[index] == ' ') {
+            index++;
+        }
+
+        // Check for sign
+        if (index < s.Length && (s[index] == '-' || s[index] == '+')) {
+            isNegative = s[index] == '-';
+            index++;
+        }
+
+        // Convert number
+        while (index < s.Length && char.IsDigit(s[index])) {
+            int digit = s[index] - '0';
+
+            // Check for overflow/underflow
+            if (result > (Int32.MaxValue - digit) / 10) {
+                return isNegative ? Int32.MinValue : Int32.MaxValue;
+            }
+
+            result = result * 10 + digit;
+            index++;
+        }
+
+        return isNegative ? (int)-result : (int)result;
+    }
+}
